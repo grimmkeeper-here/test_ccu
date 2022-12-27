@@ -57,8 +57,12 @@ class RequestSession():
         self.sgton_instance=session
         return self.sgton_instance
 
-    def get_instance(self):
-        return self.sgton_instance if self.sgton_instance else self.init()
+    def get_instance(self,
+                     retries: int = 3,
+                     back_off_factor: float = 0.3,
+                     status_force_list: tuple = (500, 502, 504),
+                     session: Optional[requests.Session] = None) -> requests.Session:
+        return self.sgton_instance if self.sgton_instance else self.init(retries,back_off_factor,status_force_list,session)
 
 
 # TODO: Init stage
